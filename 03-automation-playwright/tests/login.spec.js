@@ -54,3 +54,16 @@ test('Empty password field', async({ page }) => {
     'Epic sadface: Password is required'
   );
 });
+
+test('accessing the inventory without valid login', async({ page }) => {
+  await page.goto('https://www.saucedemo.com');
+  
+  await page.goto('https://www.saucedemo.com/inventory.html');
+
+  const errorMessage = page.locator('[data-test="error"]');
+
+  await expect(errorMessage).toBeVisible();
+  await expect(errorMessage).toHaveText(
+    `Epic sadface: You can only access '/inventory.html' when you are logged in.`
+  );
+});
